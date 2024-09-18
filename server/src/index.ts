@@ -38,12 +38,16 @@ const prisma = new PrismaClient();
 
 app.post("/create-user", async (req: Request, res: Response) => {
   try {
+    console.log("@@start-create-user")
     const {
       username,
       cognitoId,
       profilePictureUrl = "i1.jpg",
       teamId = 1,
     } = req.body;
+    console.log("username: ", username);
+    console.log("cognitoId: ", cognitoId);
+    
     const newUser = await prisma.user.create({
       data: {
         username,
@@ -52,6 +56,9 @@ app.post("/create-user", async (req: Request, res: Response) => {
         teamId,
       },
     });
+    console.log("@@create-user-success");
+    console.log("@@end-create-user");
+    
     res.json({ message: "User Created Successfully", newUser });
   } catch (error: any) {
     res
